@@ -1,0 +1,10 @@
+a:9:{s:7:"attribs";a:2:{s:5:"xmlns";s:36:"http://pear.php.net/dtd/rest.package";s:18:"xsi:schemaLocation";s:80:"http://pear.php.net/dtd/rest.package    http://pear.php.net/dtd/rest.package.xsd";}s:1:"n";s:13:"canonical_url";s:1:"c";s:37:"connect.magentocommerce.com/community";s:2:"ca";a:2:{s:7:"attribs";a:1:{s:10:"xlink:href";s:34:"/Chiara_PEAR_Server_REST/c/Default";}s:8:"_content";s:7:"Default";}s:1:"l";s:27:"Open Software License (OSL)";s:2:"lu";s:42:"http://opensource.org/licenses/osl-3.0.php";s:1:"s";s:78:"This extension adds the new canonical links to the head of your Magento pages,";s:1:"d";s:1229:"This extension adds the new canonical links to the head of your Magento pages, for a more in-depth explanation, see <a href ="http://yoast.com/tools/magento/canonical/">Yoast.com</a>. More about <a href="http://yoast.com/articles/magento-seo/">Magento SEO</a> in general at Yoast.
+
+<h3>Note</h3>For the new way the module gets the canonical URL at product pages it is important that Mage::getSingleton('catalog/url')->refreshRewrites(); is executed. Normally this will happen with the install of the module but please check the canonical url at your product page. If you get a 404 for this url change change the value of "add category to product url" at your backend, save, change it back and save again. Now the url shouldn't give a 404 error.
+
+<b>Note for use with Fooman Speedster</b> If you use Canonical URLs for Magento together with the Fooman Speedster module, you need to overwrite the Canonical module with this <a href="http://yoast.com/wp-content/uploads/2009/03/fooman-fix.zip">download.</a>
+
+Send all your questions and remarks about this extension to magento [ at ] yoast . com.
+
+<h3>Changelog</h3> 1.3 - some performance improvements.
+0.1.6 - bug fixed for products without a sitemap URL, e.g. visibility "search"";s:1:"r";a:1:{s:7:"attribs";a:1:{s:10:"xlink:href";s:40:"/Chiara_PEAR_Server_REST/r/canonical_url";}}}
