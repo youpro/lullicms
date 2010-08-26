@@ -26,11 +26,18 @@
 ?>
 <div class="header-container">
 	<div class="header">
+
+		<?php echo $this->getChildHtml('topLinks') ?>
+
+
 		<?php echo $this->getChildHtml('logo') ?>
+		
+
+		
 		<?php echo $this->getChildHtml('topMenu') ?>
+		<?php echo $this->getChildHtml('breadcrumbs') ?>
 
 		<?php /* <p class="welcome-msg"><?php echo $this->getWelcome()?></p> */ ?>
-		<?php //echo $this->getChildHtml('topLinks') ?>
 		<?php //echo $this->getChildHtml('topSearch') ?>
 		<?php //echo $this->getChildHtml('store_language') ?>
 	</div>

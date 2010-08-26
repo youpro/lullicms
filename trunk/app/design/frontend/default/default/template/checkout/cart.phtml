@@ -33,7 +33,7 @@
 ?>
 <div class="cart">
     <div class="page-title title-buttons">
-        <h2><?php echo $this->__('Shopping Cart') ?></h2>
+        <h2><?php echo $this->__('Shopping Bag') ?></h2>
         <?php if(!$this->hasError()): ?>
         <ul class="checkout-types">
             <?php echo $this->getChildHtml('top_methods') ?>
@@ -92,7 +92,7 @@
                             <?php if($this->getContinueShoppingUrl()): ?>
                                 <button type="button" class="button" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')"><span><?php echo $this->__('Continue Shopping') ?></span></button>
                             <?php endif; ?>
-                            <button type="submit" class="button"><span><?php echo $this->__('Update Shopping Cart') ?></span></button>
+                            <button type="submit" class="button"><span><?php echo $this->__('Update Shopping Bag') ?></span></button>
                         </td>
                     </tr>
                 </tfoot>
@@ -105,13 +105,20 @@
             <script type="text/javascript">decorateTable('shopping-cart-table')</script>
         </fieldset>
     </form>
-    <div class="col2-set cart-collaterals">
+    
+    <div class="cart-collaterals">
+        <?php /*
+        //disable cross sell     
         <div class="col-1">
-            <?php echo $this->getChildHtml('crosssell') ?>
+	        //echo $this->getChildHtml('crosssell')             
         </div>
-        <div class="col-2">
+        */ ?>
+        <div>
             <?php echo $this->getChildHtml('coupon') ?>
-            <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
+            <?php 
+            	//disable shipping calculator
+            	//if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif;  
+            ?>
         </div>
     </div>
     <div class="totals">

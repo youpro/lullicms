@@ -258,6 +258,26 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
              )
         ));
 
+		$sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
+		->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
+		->load()
+		->toOptionHash();
+		 
+		array_unshift($statuses, array('label'=>'', 'value'=>''));
+		$this->getMassactionBlock()->addItem('attribute_set', array(
+			'label'=> Mage::helper('catalog')->__('Change attribute set'),
+			'url'  => $this->getUrl('*/*/massAttributeSet', array('_current'=>true)),
+			'additional' => array(
+				'visibility' => array(
+					'name' => 'attribute_set',
+					'type' => 'select',
+					'class' => 'required-entry',
+					'label' => Mage::helper('catalog')->__('Attribute Set'),
+					'values' => $sets
+				)
+			)
+		));
+
         if (Mage::getSingleton('admin/session')->isAllowed('catalog/update_attributes')){
             $this->getMassactionBlock()->addItem('attributes', array(
                 'label' => Mage::helper('catalog')->__('Update attributes'),
