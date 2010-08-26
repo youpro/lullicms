@@ -31,9 +31,27 @@
  */
 ?>
 <?php $_product = $this->getProduct() ?>
+
 <?php if($_product->isSaleable()): ?>
-    <p class="availability"><?php echo $this->__('Availability') ?>: <span class="in-stock"><?php echo $this->__('In stock') ?></span></p>
-<?php else: ?>
-    <p class="availability"><?php echo $this->__('Availability') ?>: <span class="out-of-stock"><?php echo $this->__('Out of stock') ?></span></p>
-<?php endif; ?>
-<?php echo $this->getPriceHtml($_product) ?>
+    <p class="availability">
+        <?php echo $this->__('Availability') ?>: 
+		<?php
+		$__mxwA = $_product->getStockItem()->getUseConfigManageStock();
+		$__mxwB = $_product->getStockItem()->getManageStock();
+		if($__mxwA=="0" && $__mxwB=="0" ): ?> 
+			<span class="accepting-orders"><?php echo $this->__('Within 28 days' ) ?></span> 
+		<?php else: ?>
+			<span class="in-stock"><?php echo $this->__('Ready to go') ?></span>
+		<?php endif; ?>   	
+    </p>
+    
+<?php else: /* ?>
+    <p class="availability">
+    	<span class="out-of-stock"><?php echo $this->__('Out of stock.') ?></span>    	
+	</p>
+<?php */ endif; ?>
+
+<p class="sizing-button"><a href="javascript:;" id="sizingdialog">Sizing Guide</a></p>
+
+
+<?php //echo $this->getPriceHtml($_product) ?>

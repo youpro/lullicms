@@ -32,7 +32,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Catalog_Block_Product_List_Toolbar_Pager
 {
     /**
      * Products collection

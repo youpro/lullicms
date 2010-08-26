@@ -39,12 +39,14 @@
             <li>
                 <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($data)->toHtml() ?>
             </li>
+            <?php /* disable company input
             <li>
                 <div class="input-box">
                     <label for="company"><?php echo $this->__('Company') ?></label><br />
                     <input type="text" name="company" id="company" title="<?php echo $this->__('Company') ?>" value="<?php echo $this->htmlEscape($data->getCompany()) ?>" class="input-text" />
                 </div>
             </li>
+            */ ?>
         </ul>
     </fieldset>
     <fieldset>
@@ -91,10 +93,14 @@
                 <div class="input-box">
                     <label for="telephone"><?php echo $this->__('Telephone') ?> <span class="required">*</span></label><br />
                     <input type="text" name="telephone" value="<?php echo $this->htmlEscape($data->getTelephone()) ?>" title="<?php echo $this->__('Telephone') ?>" class="input-text" id="telephone" /></div>
+                    
+                            <?php /* disable company input
+    
                 <div class="input-box">
                     <label for="fax"><?php echo $this->__('Fax') ?></label><br />
                     <input type="text" name="fax" value="<?php echo $this->htmlEscape($data->getFax()) ?>" title="<?php echo $this->__('Fax') ?>" class="input-text" id="fax" />
                 </div>
+                */ ?>
             </li>
             <?php foreach ($primaryTypes as $code=>$type): ?>
                 <li>

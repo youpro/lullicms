@@ -18,29 +18,30 @@
 <!--@styles
 body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
 @-->
-
 <div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
+eeee
 <table cellspacing="0" cellpadding="0" border="0" width="98%" style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
 <tr>
     <td align="center" valign="top">
         <!-- [ header starts here] -->
+        <!--
         <table cellspacing="0" cellpadding="0" border="0" width="650">
             <tr>
                 <td valign="top"><a href="{{store url=""}}"><img src="{{skin url="images/logo_email.gif" _area='frontend'}}" alt="{{var store.getFrontendName()}}"  style="margin-bottom:10px;" border="0"/></a></td>
             </tr>
         </table>
+        -->
         <!-- [ middle starts here] -->
+        <!--
         <table cellspacing="0" cellpadding="0" border="0" width="650">
             <tr>
                 <td valign="top">
                     <p>
-                        <strong>Hello {{htmlescape var=$order.getCustomerName()}}</strong>,<br/>
-                        Thank you for your order from {{var store.getFrontendName()}}.
-                        You can check the status of your order by <a href="{{store url="customer/account/"}}" style="color:#1E7EC8;">logging into your account</a>.
-                        If you have any questions about your order please contact us at <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a> or call us at <span class="nobr">{{config path='general/store_information/phone'}}</span> Monday - Friday, 8am - 5pm PST.
+                        <strong>Dear {{htmlescape var=$order.getCustomerFirstname()}}</strong>,<br/>
+                        
                     </p>
                     <p>
-                        Your shipping confirmation is below. Thank you again for your business.
+                        Your Order #{{var order.increment_id}} has been dispatched. Shipping confirmation is below.
                     </p>
 
                     <h3 style="border-bottom:2px solid #eee; font-size:1.05em; padding-bottom:1px; ">
@@ -49,18 +50,18 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
                     <table cellspacing="0" cellpadding="0" border="0" width="100%">
                         <thead>
                         <tr>
-                            <th align="left" width="48.5%" bgcolor="#d9e5ee" style="padding:5px 9px 6px 9px; border:1px solid #bebcb7; border-bottom:none; line-height:1em;">Billing Information:</th>
+                            <th align="left" width="48.5%" style="padding:5px 9px 6px 9px; border-bottom:none; line-height:1em;">Billing Information:</th>
                             <th width="3%"></th>
-                            <th align="left" width="48.5%" bgcolor="#d9e5ee" style="padding:5px 9px 6px 9px; border:1px solid #bebcb7; border-bottom:none; line-height:1em;">Payment Method:</th>
+                            <th align="left" width="48.5%" style="padding:5px 9px 6px 9px; border-bottom:none; line-height:1em;">Payment Method:</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td valign="top" style="padding:7px 9px 9px 9px; border:1px solid #bebcb7; border-top:0; background:#f8f7f5;">
+                            <td valign="top" style="padding:7px 9px 9px 9px; border-top:0; ">
                                 {{var order.billing_address.format('html')}}
                             </td>
                             <td>&nbsp;</td>
-                            <td valign="top" style="padding:7px 9px 9px 9px; border:1px solid #bebcb7; border-top:0; background:#f8f7f5;">
+                            <td valign="top" style="padding:7px 9px 9px 9px; border-top:0; ">
                                 {{var payment_html}}
                             </td>
                         </tr>
@@ -70,19 +71,19 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
                     <table cellspacing="0" cellpadding="0" border="0" width="100%">
                         <thead>
                         <tr>
-                            <th align="left" width="48.5%" bgcolor="#d9e5ee" style="padding:5px 9px 6px 9px; border:1px solid #bebcb7; border-bottom:none; line-height:1em;">Shipping Information:</th>
+                            <th align="left" width="48.5%" style="padding:5px 9px 6px 9px; border-bottom:none; line-height:1em;">Shipping Information:</th>
                             <th width="3%"></th>
-                            <th align="left" width="48.5%" bgcolor="#d9e5ee" style="padding:5px 9px 6px 9px; border:1px solid #bebcb7; border-bottom:none; line-height:1em;">Shipping Method:</th>
+                            <th align="left" width="48.5%" style="padding:5px 9px 6px 9px; border-bottom:none; line-height:1em;">Shipping Method:</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td valign="top" style="padding:7px 9px 9px 9px; border:1px solid #bebcb7; border-top:0; background:#f8f7f5;">
+                            <td valign="top" style="padding:7px 9px 9px 9px; border-top:0; ">
                                 {{var order.shipping_address.format('html')}}
                                 &nbsp;
                             </td>
                             <td>&nbsp;</td>
-                            <td valign="top" style="padding:7px 9px 9px 9px; border:1px solid #bebcb7; border-top:0; background:#f8f7f5;">
+                            <td valign="top" style="padding:7px 9px 9px 9px; border-top:0; ">
                                 {{var order.shipping_description}}
                                 &nbsp;
                             </td>
@@ -96,12 +97,48 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
                     <br/>
                     {{block type='core/template' area='frontend' template='email/order/shipment/track.phtml' shipment=$shipment order=$order}}
                     <p>{{var comment}}</p>
+                    
+                  	<p>Please allow Ê2-5 working days.</p>
+                    
+                    <p>If you have any queries please don't hesitate to contact us at <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a>.
+                    </p>
+                    
                     <p>
-                        Thank you again,<br/><strong>{{var store.getFrontendName()}}</strong>
+                        Best wishes,<br/><strong>{{var store.getFrontendName()}}</strong>
                     </p>
                 </td>
             </tr>
         </table>
+        -->
+        <!-- policy -->
+        <!--
+        <table>
+        	<tr>
+        		<td style="font-size:0.7em;">
+        			<h3>Returns Policy</h3>
+					
+					<p>If you are not completely satisfied with your purchase for any reason, or would like to make an exchange. Simply return the items within 14 days of receipt in their original packaging and condition to:</p>
+					
+					<p>
+					LuLLiLu <br />
+					PO box 64689.<br />
+					London.<br />
+					NW3 9PG<br />
+					United Kingdom
+					</p>
+					
+					
+					<p>We will be happy to refund or exchange the item for you.</p>
+					
+					<p>For full details of our refund policy please visit our "term and condition" page on our website Ê<a href="http://www.lullilu.com">www.lullilu.com</a>.</p>
+					
+					<p>LuLLiLu is a registered trade mark and protected by copy right.<br />
+					LAZY DRESS DAY LTD<br />
+					REGISTERED ÊIN ENGLAND AND WALES NO 06870541.</p>
+				</td>
+        	</tr>
+        </table>
+        -->
     </td>
 </tr>
 </table>
