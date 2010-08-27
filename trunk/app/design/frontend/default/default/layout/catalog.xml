@@ -88,7 +88,9 @@ Category default layout
         <reference name="content">
             <block type="catalog/category_view" name="category.products" template="catalog/category/view.phtml">
                 <block type="catalog/product_list" name="product_list" template="catalog/product/list.phtml">
+                	<!-- disable toolbar
                     <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                    -->
                         <!-- The following code shows how to set your own pager increments -->
                         <!--
                             <action method="setDefaultListPerPage"><limit>4</limit></action>
@@ -99,8 +101,10 @@ Category default layout
                             <action method="addPagerLimit"><mode>list</mode><limit>8</limit></action>
                             <action method="addPagerLimit" translate="label"><mode>list</mode><limit>all</limit><label>All</label></action>
                         -->
+                    <!--    
                     </block>
                     <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
+                    -->
                 </block>
             </block>
         </reference>

@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_Adminhtml
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -69,7 +69,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         if ($store->getId()) {
             //$collection->setStoreId($store->getId());
+            $adminStore = Mage_Core_Model_App::ADMIN_STORE_ID;
             $collection->addStoreFilter($store);
+            $collection->joinAttribute('name', 'catalog_product/name', 'entity_id', null, 'inner', $adminStore);
             $collection->joinAttribute('custom_name', 'catalog_product/name', 'entity_id', null, 'inner', $store->getId());
             $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner', $store->getId());
             $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner', $store->getId());
@@ -122,7 +124,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         if ($store->getId()) {
             $this->addColumn('custom_name',
                 array(
-                    'header'=> Mage::helper('catalog')->__('Name In %s', $store->getName()),
+                    'header'=> Mage::helper('catalog')->__('Name in %s', $store->getName()),
                     'index' => 'custom_name',
             ));
         }
@@ -258,29 +260,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
              )
         ));
 
-		$sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
-		->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
-		->load()
-		->toOptionHash();
-		 
-		array_unshift($statuses, array('label'=>'', 'value'=>''));
-		$this->getMassactionBlock()->addItem('attribute_set', array(
-			'label'=> Mage::helper('catalog')->__('Change attribute set'),
-			'url'  => $this->getUrl('*/*/massAttributeSet', array('_current'=>true)),
-			'additional' => array(
-				'visibility' => array(
-					'name' => 'attribute_set',
-					'type' => 'select',
-					'class' => 'required-entry',
-					'label' => Mage::helper('catalog')->__('Attribute Set'),
-					'values' => $sets
-				)
-			)
-		));
-
         if (Mage::getSingleton('admin/session')->isAllowed('catalog/update_attributes')){
             $this->getMassactionBlock()->addItem('attributes', array(
-                'label' => Mage::helper('catalog')->__('Update attributes'),
+                'label' => Mage::helper('catalog')->__('Update Attributes'),
                 'url'   => $this->getUrl('*/catalog_product_action_attribute/edit', array('_current'=>true))
             ));
         }

@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_CatalogRule
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -55,6 +55,20 @@ class Mage_CatalogRule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysq
         if ($parts) {
             $this->getSelect()->where(new Zend_Db_Expr(implode(' OR ', $parts)));
         }
+        return $this;
+    }
+
+    /**
+     * Find product attribute in conditions or actions
+     *
+     * @param string $attributeCode
+     * @return Mage_CatalogRule_Model_Mysql4_Rule_Collection
+     */
+    public function addAttributeInConditionFilter($attributeCode)
+    {
+        $match = sprintf('%%%s%%', substr(serialize(array('attribute' => $attributeCode)), 5, -1));
+        $this->addFieldToFilter('conditions_serialized', array('like' => $match));
+
         return $this;
     }
 }

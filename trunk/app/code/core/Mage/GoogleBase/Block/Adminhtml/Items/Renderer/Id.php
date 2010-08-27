@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_GoogleBase
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -43,7 +43,7 @@ class Mage_GoogleBase_Block_Adminhtml_Items_Renderer_Id
      */
     public function render(Varien_Object $row)
     {
-        $baseUrl = 'http://www.google.com/base/step2offer?docId=';
+        $baseUrl = 'http://www.google.com/merchants/view?docId=';
 
         $itemUrl = $row->getData($this->getColumn()->getIndex());
         $urlParts = parse_url($itemUrl);
