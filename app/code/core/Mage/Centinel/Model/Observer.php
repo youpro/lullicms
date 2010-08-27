@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_Centinel
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -95,11 +95,47 @@ class Mage_Centinel_Model_Observer extends Varien_Object
 
         if ($method && $method->getIsCentinelValidationEnabled()) {
             $paymentFormBlock->setChild(
-               'payment.method.'.$method->getCode().'centinel.logo',
+               'payment.method.' . $method->getCode() . 'centinel.logo',
                 Mage::helper('centinel')->getMethodFormBlock($method)
             );
         }
         return $this;
     }
-}
 
+    /**
+     * Reset validation data
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Centinel_Model_Observer
+     */
+    public function checkoutSubmitAllAfter($observer)
+    {
+        $method = false;
+
+        if ($order = $observer->getEvent()->getOrder()) {
+            $method = $order->getPayment()->getMethodInstance();
+        } elseif ($orders = $observer->getEvent()->getOrders()) {
+            if ($order = array_shift($orders)) {
+                $method = $order->getPayment()->getMethodInstance();
+            }
+        }
+
+        if ($method && $method->getIsCentinelValidationEnabled()) {
+            $method->getCentinelValidator()->reset();
+        }
+        return $this;
+    }
+
+    /**
+     * Reset validation data
+     * @deprecated back compatibility alias for checkoutSubmitAllAfter
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Centinel_Model_Observer
+     */
+    public function salesOrderPaymentPlaceEnd($observer)
+    {
+        $this->checkoutSubmitAllAfter($observer);
+        return $this;
+    }
+}

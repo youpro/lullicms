@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_SalesRule
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -100,6 +100,18 @@ class Mage_SalesRule_Model_Observer
                 }
             }
         }
+
+        $coupon = Mage::getModel('salesrule/coupon');
+        /** @var Mage_SalesRule_Model_Coupon */
+        $coupon->load($order->getCouponCode(), 'code');
+        if ($coupon->getId()) {
+            $coupon->setTimesUsed($coupon->getTimesUsed() + 1);
+            $coupon->save();
+            if ($customerId) {
+                $couponUsage = Mage::getResourceModel('salesrule/coupon_usage');
+                $couponUsage->updateCustomerCouponTimesUsed($customerId, $coupon->getId());
+            }
+        }
     }
 
     /**
@@ -113,9 +125,66 @@ class Mage_SalesRule_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('salesrule/rule')->aggregate($date);
+        Mage::getResourceModel('salesrule/report_rule')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
+    }
+
+
+    /**
+     * After delete attribute check rules that contains deleted attribute
+     * If rules was found they will seted to inactive and added notice to admin session
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_CatalogRule_Model_Observer
+     */
+    public function catalogAttributeDeleteAfter(Varien_Event_Observer $observer)
+    {
+        $attribute = $observer->getEvent()->getAttribute();
+        $attributeCode = $attribute->getAttributeCode();
+        if ($attribute->getIsUsedForPromoRules()) {
+            /* @var $collection Mage_CatalogRule_Model_Mysql4_Rule_Collection */
+            $collection = Mage::getResourceModel('salesrule/rule_collection')
+                ->addAttributeInConditionFilter($attributeCode);
+            $hasRule = false;
+            foreach ($collection as $rule) {
+                /* @var $rule Mage_CatalogRule_Model_Rule */
+                $rule->setIsActive(0);
+                $this->_removeAttributeFromConditions($rule->getConditions(), $attributeCode);
+                $this->_removeAttributeFromConditions($rule->getActions(), $attributeCode);
+                $rule->save();
+                $hasRule = true;
+            }
+
+            if ($hasRule) {
+                Mage::getSingleton('adminhtml/session')->addWarning(
+                    Mage::helper('salesrule')->__('Shopping Cart Price Rules based on deleted attribute "%s" has been disabled.', $attributeCode));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove catalog attribute condition by attribute code from rule conditions
+     *
+     * @param Mage_Rule_Model_Condition_Combine $combine
+     * @param string $attributeCode
+     */
+    protected function _removeAttributeFromConditions($combine, $attributeCode)
+    {
+        $conditions = $combine->getConditions();
+        foreach ($conditions as $conditionId => $condition) {
+            if ($condition instanceof Mage_Rule_Model_Condition_Combine) {
+                $this->_removeAttributeFromConditions($condition, $attributeCode);
+            }
+            if ($condition instanceof Mage_SalesRule_Model_Rule_Condition_Product) {
+                if ($condition->getAttribute() == $attributeCode) {
+                    unset($conditions[$conditionId]);
+                }
+            }
+        }
+        $combine->setConditions($conditions);
     }
 }
 

@@ -42,7 +42,7 @@ abstract class Phoenix_Moneybookers_Model_Abstract extends Mage_Payment_Model_Me
 
     protected $_paymentMethod    = 'abstract';
     protected $_defaultLocale    = 'en';
-    protected $_supportedLocales = array('cn', 'cz', 'en', 'es', 'de', 'fr', 'gr', 'it', 'nl', 'ro', 'ru', 'pl', 'tr');
+    protected $_supportedLocales = array('cn', 'cz', 'da', 'en', 'es', 'fi', 'de', 'fr', 'gr', 'it', 'nl', 'ro', 'ru', 'pl', 'sv', 'tr');
     protected $_hidelogin        = '1';
 
     protected $_order;
@@ -204,20 +204,5 @@ abstract class Phoenix_Moneybookers_Model_Abstract extends Mage_Payment_Model_Me
     {
         $paymentAction = $this->getConfigData('payment_action');
         return empty($paymentAction) ? true : $paymentAction;
-    }
-
-    /**
-     * Retrieve information from payment configuration
-     *
-     * @param   string $field
-     * @return  mixed
-     */
-    public function getConfigData($field, $storeId = null)
-    {
-        if (null === $storeId) {
-            $storeId = $this->getStore();
-        }
-        $path = 'moneybookers/'.$this->getCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
     }
 }

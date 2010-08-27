@@ -120,7 +120,7 @@
 ## you can put here your magento root folder
 ## path relative to web root
 
-    #RewriteBase /magento/
+    RewriteBase /
 
 ############################################
 ## workaround for HTTP authorization
@@ -130,6 +130,7 @@
 
 ############################################ 
 ## Compress, Combine and Cache Javascript/CSS 
+
 RewriteRule ^(index.php/)?minify/([^/]+)(/.*.(js|css))$ lib/minify/m.php?f=$3&d=$2
 
 ############################################

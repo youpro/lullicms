@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_CatalogRule
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -101,6 +101,8 @@ class Mage_CatalogRule_Model_Observer
 
         if ($observer->hasCustomerGroupId()) {
             $gId = $observer->getEvent()->getCustomerGroupId();
+        } elseif ($product->hasCustomerGroupId()) {
+            $gId = $product->hasCustomerGroupId();
         } else {
             $gId = Mage::getSingleton('customer/session')->getCustomerGroupId();
         }
@@ -200,5 +202,63 @@ class Mage_CatalogRule_Model_Observer
                 $updateFields, $websiteDate);
 
         return $this;
+    }
+
+    /**
+     * After delete attribute check rules that contains deleted attribute
+     * If rules was found they will seted to inactive and added notice to admin session
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_CatalogRule_Model_Observer
+     */
+    public function catalogAttributeDeleteAfter(Varien_Event_Observer $observer)
+    {
+        $attribute = $observer->getEvent()->getAttribute();
+        $attributeCode = $attribute->getAttributeCode();
+        if ($attribute->getIsUsedForPromoRules()) {
+            /* @var $collection Mage_CatalogRule_Model_Mysql4_Rule_Collection */
+            $collection = Mage::getResourceModel('catalogrule/rule_collection')
+                ->addAttributeInConditionFilter($attributeCode);
+            $hasRule = false;
+            foreach ($collection as $rule) {
+                /* @var $rule Mage_CatalogRule_Model_Rule */
+                $rule->setIsActive(0);
+                /* @var $conditionInstance Mage_CatalogRule_Model_Rule_Condition_Combine */
+                $this->_removeAttributeFromConditions($rule->getConditions(), $attributeCode);
+                $rule->save();
+
+                $hasRule = true;
+            }
+
+            if ($hasRule) {
+                Mage::getModel('catalogrule/rule')->applyAll();
+                Mage::getSingleton('adminhtml/session')->addWarning(
+                    Mage::helper('catalogrule')->__('Catalog Price Rules based on deleted attribute "%s" has been disabled.', $attributeCode));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove catalog attribute condition by attribute code from rule conditions
+     *
+     * @param Mage_CatalogRule_Model_Rule_Condition_Combine $combine
+     * @param string $attributeCode
+     */
+    protected function _removeAttributeFromConditions($combine, $attributeCode)
+    {
+        $conditions = $combine->getConditions();
+        foreach ($conditions as $conditionId => $condition) {
+            if ($condition instanceof Mage_CatalogRule_Model_Rule_Condition_Combine) {
+                $this->_removeAttributeFromConditions($condition, $attributeCode);
+            }
+            if ($condition instanceof Mage_CatalogRule_Model_Rule_Condition_Product) {
+                if ($condition->getAttribute() == $attributeCode) {
+                    unset($conditions[$conditionId]);
+                }
+            }
+        }
+        $combine->setConditions($conditions);
     }
 }
