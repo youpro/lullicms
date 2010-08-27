@@ -41,7 +41,13 @@
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="product-view">
     <div class="product-essential">
+    	
+    	<?php if($_product->isSaleable()) :  ?>
 		<form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+		<?php else: //if out of stock, display notify me ?>
+		<form method="post" action="/contacts">
+		<?php endif; ?>
+		
 		<fieldset class="no-display">
 			<input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
 			<input type="hidden" name="related_product" id="related-products-field" value="" />
@@ -115,6 +121,10 @@
 				
 		<script type="text/javascript">
 		//<![CDATA[
+				
+			<?php if($_product->isSaleable()): ?>
+				
+				//Add to Bag button
 				var productAddToCartForm = new VarienForm('product_addtocart_form');
 				productAddToCartForm.submit = function(){
 						if (this.validator.validate()) {
@@ -122,7 +132,14 @@
 						}
 				}.bind(productAddToCartForm);
 				
+			<?php else: //if product is out of stock, display notify button ?>
 				
+				//Notify me when back in stock button
+				
+				
+			<?php endif; ?>
+				
+				//Size Guide pop up button
 				new Dialog({
 				        handle:'#sizingdialog',
 				        title:'Sizing Guide',
@@ -136,7 +153,7 @@
 		//]]>
 		</script>
 				
-		<?php if(!$_product->isSaleable()): //if product is out of stock, display notify button ?>
+		<?php /* if(!$_product->isSaleable()): //if product is out of stock, display notify button ?>
 
 		<form method="post" action="/contacts" id="notifyme">
 
@@ -149,7 +166,7 @@
 		
 		</form>    
 
-		<?php endif; ?>
+		<?php endif; */ ?>
 		
     </div>
 
