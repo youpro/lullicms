@@ -47,7 +47,13 @@
     
 <?php else: ?>
     <p class="availability">
-    	<span class="out-of-stock"><?php echo $this->__('Out of stock.') ?></span>		
+    	<!-- <span class="out-of-stock"><?php echo $this->__('Out of stock.') ?></span>	-->
+    	
+		<input name="productname" type="hidden" value="<?php echo $_product->getName() ?> - <?php echo $this->__('Please notify me when this product gets back in stock.' ) ?>" />
+		
+		<button type="submit" id="notifyme" class="button notifyme" title="Notify me when back in stock">
+			<span><?php echo $this->__('Notify me when back in stock' ) ?></span>
+		</button>	
     	
     </p>
 <?php endif; ?>
