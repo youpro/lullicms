@@ -39,13 +39,24 @@
                 <table_prefix><![CDATA[]]></table_prefix>
             </db>
             <default_setup>
+            
                 <connection>
                     <host><![CDATA[dev.lullilu.com]]></host>
                     <username><![CDATA[root]]></username>
                     <password><![CDATA[root]]></password>
-                    <dbname><![CDATA[ronit]]></dbname>
+                    <dbname><![CDATA[lullilu]]></dbname>
                     <active>1</active>
                 </connection>
+             
+             <!--
+				<connection>
+                    <host><![CDATA[lullilu.db.6156398.hostedresource.com]]></host>
+                    <username><![CDATA[lullilu]]></username>
+                    <password><![CDATA[Strathray55]]></password>
+                    <dbname><![CDATA[lullilu]]></dbname>
+                    <active>1</active>
+                </connection>
+                -->
             </default_setup>
         </resources>
         <session_save><![CDATA[files]]></session_save>

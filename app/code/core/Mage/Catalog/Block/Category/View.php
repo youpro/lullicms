@@ -148,4 +148,34 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         }
         return $res;
     }
+    
+    
+    /**
+     * Cache html output
+     *
+     * 
+     */
+    
+    protected function _construct()
+    {
+        $this->addData(array(
+            'cache_lifetime'    => 999999999,
+            'cache_tags'        => array(Mage_Catalog_Model_Category::CACHE_TAG . "_" . $this->getCurrentCategory()->getId()),
+            'cache_key'            => $this->getCurrentCategory()->getId(),
+        ));
+    }    
+    
+    public function cleanCache()
+    {
+        Mage::app()->cleanCache('catalog_category_'.$this->getId());
+    }   
+   
+    protected function _beforeSave() {
+        $this->cleanCache();
+        return parent::_beforeSave();
+    }    
+    
+    
+    
+    
 }

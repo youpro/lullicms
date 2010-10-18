@@ -106,14 +106,14 @@
 					<?php echo $this->getChildChildHtml('container1', '', true, true) ?>
 				<?php endif;?>
 				
-				<?php //echo $this->getChildHtml('other');?>
-
+				<?php echo $this->getChildHtml('other');?>
 
 			</div>
 			
 			<?php if ($_product->isSaleable() && $this->hasOptions()):?>
 				<?php echo $this->getChildChildHtml('container2', '', true, true) ?>
 			<?php endif;?>
+			
 			
 			<div class="clearer"></div>
 
@@ -152,33 +152,21 @@
 
 		//]]>
 		</script>
-				
-		<?php /* if(!$_product->isSaleable()): //if product is out of stock, display notify button ?>
-
-		<form method="post" action="/contacts" id="notifyme">
-
-			<input name="productname" type="hidden" value="<?php echo $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name') ?> - <?php echo $this->__('Please notify me when this product gets back in stock.' ) ?>" />
-			
-			<button type="submit" class="button notifyme" title="Notify me when back in stock">
-				<span><?php echo $this->__('Notify me when back in stock' ) ?></span>
-			</button>
-		
-		
-		</form>    
-
-		<?php endif; */ ?>
 		
     </div>
 
     <div class="product-collateral">
 
-        <?php if ($_additional = $this->getChildHtml('additional')):?>
+        <?php  /* if ($_additional = $this->getChildHtml('additional')):?>
             <div class="additional">
                 <strong><?php echo $this->__('Additional Information') ?></strong>
                 <?php echo $_additional ?>
             </div>
-        <?php endif;?>
+        <?php endif; */ ?>
         <?php //echo $this->getChildHtml('upsell_products') ?>
         <?php //echo $this->getChildHtml('product_additional_data') ?>
+        
+		<?php echo $this->getChildHtml('product_related') ?>
+
     </div>
 </div>

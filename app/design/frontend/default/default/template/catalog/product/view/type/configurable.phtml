@@ -31,33 +31,33 @@
  */
 ?>
 <?php $_product = $this->getProduct() ?>
-
 <?php if($_product->isSaleable()): ?>
     <p class="availability">
-        <?php echo $this->__('Availability') ?>: 
+        <?php //echo $this->__('Availability') ?> 
 		<?php
 		$__mxwA = $_product->getStockItem()->getUseConfigManageStock();
 		$__mxwB = $_product->getStockItem()->getManageStock();
 		if($__mxwA=="0" && $__mxwB=="0" ): ?> 
 			<span class="accepting-orders"><?php echo $this->__('Within 28 days' ) ?></span> 
 		<?php else: ?>
-			<span class="in-stock"><?php echo $this->__('Ready to go') ?></span>
+			<!--<span class="in-stock"><?php echo $this->__('Ready to go') ?></span>	-->	
 		<?php endif; ?>   	
     </p>
     
-<?php else:  ?>
+<?php else: ?>
     <p class="availability">
     	
 		<input name="productname" type="hidden" value="<?php echo $_product->getName() ?> - <?php echo $this->__('Please notify me when this product gets back in stock.' ) ?>" />
 		
 		<button type="submit" id="notifyme" class="button notifyme" title="Notify me when back in stock">
 			<span><?php echo $this->__('Notify me when back in stock' ) ?></span>
-		</button>
-    		
-	</p>
+		</button>	
+    	
+    </p>
 <?php endif; ?>
 
+<?php if($_product->getResource()->getAttribute('sizing')->getFrontend()->getValue($_product) == "Yes"): //Check for Sizing Guide attribute ?>
 <p class="sizing-button"><a href="javascript:;" id="sizingdialog">Sizing Guide</a></p>
-
+<?php endif; ?>
 
 <?php //echo $this->getPriceHtml($_product) ?>
