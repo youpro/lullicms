@@ -34,14 +34,14 @@
 
 <?php if($_product->isSaleable()): ?>
     <p class="availability">
-        <?php echo $this->__('Availability') ?>: 
+        <?php //echo $this->__('Availability') ?> 
 		<?php
 		$__mxwA = $_product->getStockItem()->getUseConfigManageStock();
 		$__mxwB = $_product->getStockItem()->getManageStock();
 		if($__mxwA=="0" && $__mxwB=="0" ): ?> 
 			<span class="accepting-orders"><?php echo $this->__('Within 28 days' ) ?></span> 
 		<?php else: ?>
-			<span class="in-stock"><?php echo $this->__('Ready to go') ?></span>		
+			<!-- <span class="in-stock"><?php echo $this->__('Ready to go') ?></span>	-->	
 		<?php endif; ?>   	
     </p>
     
@@ -57,6 +57,10 @@
     </p>
 <?php endif; ?>
 
+<?php if($_product->getResource()->getAttribute('sizing')->getFrontend()->getValue($_product) == "Yes"): //Check for Sizing Guide attribute ?>
 <p class="sizing-button"><a href="javascript:;" id="sizingdialog">Sizing Guide</a></p>
+<?php endif; ?>
 
-<?php echo $this->getPriceHtml($_product) ?>
+<?php if (!$this->hasOptions()): //check if product has options, which will display price on its own, to avoid duplication ?>
+	<?php echo $this->getPriceHtml($_product) ?>
+<?php endif; ?>

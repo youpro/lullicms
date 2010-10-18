@@ -27,19 +27,19 @@
 <?php $_invoice = $this->getInvoice() ?>
 <?php $_order   = $this->getOrder() ?>
 <?php if ($_invoice && $_order): ?>
-<table cellspacing="0" cellpadding="0" border="0" width="100%" style="border:1px solid #bebcb7; background:#f8f7f5;">
+<table cellspacing="0" cellpadding="0" border="0" width="100%" style="border:1px solid #bebcb7;">
     <thead>
         <tr>
-            <th align="left" bgcolor="#d9e5ee" style="padding:3px 9px"><?php echo $this->__('Item') ?></th>
-            <th align="left" bgcolor="#d9e5ee" style="padding:3px 9px"><?php echo $this->__('Sku') ?></th>
-            <th align="center" bgcolor="#d9e5ee" style="padding:3px 9px"><?php echo $this->__('Qty') ?></th>
-            <th align="right" bgcolor="#d9e5ee" style="padding:3px 9px"><?php echo $this->__('Subtotal') ?></th>
+            <th align="left" style="padding:3px 9px"><?php echo $this->__('Item') ?></th>
+            <th align="left" style="padding:3px 9px"><?php //echo $this->__('Sku') ?></th>
+            <th align="center" style="padding:3px 9px"><?php echo $this->__('Qty') ?></th>
+            <th align="right" style="padding:3px 9px"><?php echo $this->__('Subtotal') ?></th>
         </tr>
     </thead>
 
     <?php $i=0; foreach ($_invoice->getAllItems() as $_item): ?>
     <?php if($_item->getOrderItem()->getParentItem()) continue; else $i++; ?>
-    <tbody<?php echo $i%2 ? ' bgcolor="#eeeded"' : '' ?>>
+    <tbody>
         <?php echo $this->getItemHtml($_item) ?>
     </tbody>
     <?php endforeach; ?>
@@ -67,7 +67,7 @@
             <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_invoice->getTaxAmount()) ?></td>
         </tr>
         <?php endif; ?>
-        <tr bgcolor="#DEE5E8">
+        <tr>
             <td colspan="3" align="right" style="padding:3px 9px"><strong><big><?php echo $this->__('Grand Total') ?></big></strong></td>
             <td align="right" style="padding:6px 9px"><strong><big><?php echo $_order->formatPrice($_invoice->getGrandTotal()) ?></big></strong></td>
         </tr>

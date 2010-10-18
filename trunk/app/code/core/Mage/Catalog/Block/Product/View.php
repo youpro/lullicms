@@ -189,4 +189,37 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     {
         return $this->getProduct()->getTypeInstance(true)->hasRequiredOptions($this->getProduct());
     }
+    
+    /**
+     * Cache html output
+     *
+     * 
+      
+    protected function _construct()
+    {
+        $this->addData(array(
+            'cache_lifetime'    => false,
+            'cache_tags'        => array(Mage_Catalog_Model_Product::CACHE_TAG . "_" . $this->getProduct()->getId()),
+            'cache_key'            => $this->getProduct()->getId(),
+        ));
+    }
+       
+    
+    protected function _construct()
+    {
+        $this->addData(array(            'cache_lifetime'    => 999999999,
+        ));
+    }
+
+    public function getCacheTags()
+    {
+        return array(Mage_Catalog_Model_Product::CACHE_TAG);
+    }
+
+    public function getCacheKey()
+    {
+        return $this->getRequest()->getRequestUri();
+    }
+    
+    */
 }
