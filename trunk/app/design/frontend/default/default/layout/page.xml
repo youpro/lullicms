@@ -47,8 +47,9 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>varien/menu.js</script></action>
                 <action method="addJs" ifconfig="dev/translate_inline/active"><script>mage/translate.js</script></action>
                 <action method="addJs"><script>mage/cookies.js</script></action>
-				<action method="addCss"><stylesheet>css/font/futurastd-book.css</stylesheet></action>
-				<action method="addCss"><stylesheet>css/font/helveticaneueltstd-ultlt.css</stylesheet></action>
+				<action method="addCss"><stylesheet>css/fontface/stylesheet.css</stylesheet></action>
+				<!--<action method="addCss"><stylesheet>css/font/futurastd-book.css</stylesheet></action>-->
+				<!--<action method="addCss"><stylesheet>css/font/helveticaneueltstd-ultlt.css</stylesheet></action>-->
 				<!--<action method="addCss"><stylesheet>css/font/futurastd-bold.css</stylesheet></action>-->
 
 				<action method="addCss"><stylesheet>css/screen.css</stylesheet></action>

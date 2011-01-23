@@ -44,7 +44,7 @@
     <div id="carousel-container">
     
     	<div class="previous_button"> &#9664; </div> 
-    	<div class="total"><?php //$this->getToolbarHtml() ?></div>
+    	<div id="carousel-index" class="total"><span>1 of</span> <?php echo ceil($_productCollection->count()/3); ?></div>
     	<div class="next_button"> &#9654; </div>
  
 		      	<div class="container">
