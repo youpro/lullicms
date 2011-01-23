@@ -348,9 +348,11 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
             $errors[] = $helper->__('Please enter the city.');
         }
 
+/*
         if (!Zend_Validate::is($this->getTelephone(), 'NotEmpty')) {
             $errors[] = $helper->__('Please enter the telephone number.');
         }
+*/
 
         $_havingOptionalZip = Mage::helper('directory')->getCountriesWithOptionalZip();
         if (!in_array($this->getCountryId(), $_havingOptionalZip) && !Zend_Validate::is($this->getPostcode(), 'NotEmpty')) {

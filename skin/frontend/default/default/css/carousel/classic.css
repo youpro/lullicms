@@ -15,23 +15,26 @@
   width: 896px;
   height: 320px;
   overflow:hidden;  
-  padding-top: 30px; 
+  padding-top: 50px; 
 }            
 
 #carousel-container .previous_button {
   position: absolute;
   font-size: 18px;
   top: 5px;
-  left: 410px;
-  width: 27px;
-  height: 30px;
+  left: 370px;
+  width: 40px;
+  height: 40px;
   z-index: 100;    
   cursor:pointer;
+  text-indent: -9999px;
+  background: url(../../images/arrows.jpg) top left no-repeat; 
 }        
 
 #carousel-container .previous_button_disabled {
   cursor:default;
   color: #CCC;
+  background-position: bottom left;
 }
 
 #carousel-container .next_button {
@@ -39,15 +42,27 @@
   font-size: 18px;
   top: 5px;
   right: 390px;
-  width: 27px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   z-index: 100;
   cursor:pointer;
+  text-indent: -9999px;
+  background: url(../../images/arrows.jpg) top right no-repeat; 
 }   
 
 #carousel-container .next_button_disabled {
   cursor:default;
   color: #CCC;
+  background-position: bottom right;
+}
+
+#carousel-index
+{
+  position: absolute;
+  left: 440px;
+  width: 70px;
+  text-align: center;
+  padding-top: 15px;
 }
 
 #carousel-container ul {
