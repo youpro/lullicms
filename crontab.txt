@@ -1,0 +1,4 @@
+# for debugging purposes only:
+MAILTO=your.user@your.server.com
+
+*/5 * * * * /usr/bin/php -f /home/lullilu/public_html/cron.php
