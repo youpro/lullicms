@@ -17,7 +17,7 @@ $min_documentRoot = '';
 // try to disable output_compression (may not have an effect)
 ini_set('zlib.output_compression', '0');
 
-// Minify Entry Point for Magento Extension FOOMAN Speedster
+// Minify Entry Point for Magento Extension Fooman Speedster
 define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
 define('BP', dirname(dirname(dirname(__FILE__))));
@@ -28,14 +28,15 @@ define('BP', dirname(dirname(dirname(__FILE__))));
  */
 
 // Figure out if we are run from a subdirectory
+$rootdir = '';
 $dir=explode("/lib/minify/m.php" , htmlentities($_SERVER['SCRIPT_NAME']));
 if (strlen($dir[0])==0){
     // we are in webroot
     $min_symlinks=array('//' => BP);
 }else{
     // we are in a subdirectory adjust symlink
-    $rootdir= explode($dir[0] , BP);
-    $min_symlinks=array('//' => $rootdir[0]);
+    $rootdir= preg_replace('!'.$dir[0].'$!','',BP);
+    $min_symlinks=array('//' => $rootdir);
 }
 
 // Prepends include_path. You could alternately do this via .htaccess or php.ini
@@ -84,10 +85,14 @@ if (isset($_GET['f'])) {
         'rewriteCssUris'=>true
         ,'files' => $servefiles
         ,'maxAge' => 31536000 // now + 1 yr
+        ,'bubbleCssImports' =>'true'
     );
 
     //include option for symlinks and merge with $serveOptions
     $min_serveOptions['minifierOptions']['text/css']['symlinks'] = $min_symlinks;
+    if(!empty($rootdir)){
+        $min_serveOptions['minifierOptions']['text/css']['prependRelativePath'] =  $rootdir;
+    }
     $serveOptions=array_merge($serveOptions,$min_serveOptions);
 
     //and SERVE

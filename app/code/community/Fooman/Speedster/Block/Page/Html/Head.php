@@ -14,7 +14,7 @@
  *
  * @category   Mage
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com) (original implementation)
- * @copyright  Copyright (c) 2008 FOOMAN (http://www.fooman.co.nz) (use of Minify Library)
+ * @copyright  Copyright (c) 2008 Fooman (http://www.fooman.co.nz) (use of Minify Library)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -22,10 +22,8 @@
  * Html page block
  *
  * @package  Fooman_Speedster
- * @author     FOOMAN (http://www.fooman.co.nz)
+ * @author   Fooman (http://www.fooman.co.nz)
  */
-set_include_path( BP.DS.'lib'.DS.'minify'.DS.'lib'. PS . get_include_path());
-require  'Minify'. DS .'BuildSpeedster.php';
 
 class Fooman_Speedster_Block_Page_Html_Head extends Mage_Page_Block_Html_Head
 {
@@ -40,7 +38,7 @@ class Fooman_Speedster_Block_Page_Html_Head extends Mage_Page_Block_Html_Head
         $lines = array();
 
         $baseJs = Mage::getBaseUrl('js');
-        $baseJsFast = Mage::getBaseUrl('web').'minify/';
+        $baseJsFast = Mage::getBaseUrl('skin').'m/';
         $html = '';
         //$html = "<!--".BP."-->\n";
         $script = '<script type="text/javascript" src="%s" %s></script>';
@@ -70,7 +68,11 @@ class Fooman_Speedster_Block_Page_Html_Head extends Mage_Page_Block_Html_Head
                     if($item['params']== 'media="all"'){
                         $chunks=explode('/skin', $this->getSkinUrl($item['name']),2);
                         $lines[$if]['stylesheet'][] = "/".$webroot."skin".$chunks[1];
-                    } else {
+                    } elseif($item['params']=='media="print"'){
+                        $chunks=explode('/skin', $this->getSkinUrl($item['name']),2);
+                        $lines[$if]['stylesheet_print'][] = "/".$webroot."skin".$chunks[1];
+                    }
+                    else {
                         $lines[$if]['other'][] = sprintf($stylesheet, $this->getSkinUrl($item['name']), $item['params']);
                     }
                     break;
@@ -83,6 +85,11 @@ class Fooman_Speedster_Block_Page_Html_Head extends Mage_Page_Block_Html_Head
                     $lines[$if]['other'][] = sprintf('<link %s href="%s" />', $item['params'], $item['name']);
                     break;
 
+                case 'ext_js':
+                default:
+                    $lines[$if]['other'][] = sprintf('<script type="text/javascript" src="%s"></script>',$item['name']);
+                    break;
+
             }
         }
 
@@ -91,15 +98,21 @@ class Fooman_Speedster_Block_Page_Html_Head extends Mage_Page_Block_Html_Head
                 $html .= '<!--[if '.$if.']>'."\n";
             }
             if (!empty($items['stylesheet'])) {
-               $cssBuild = new Minify_Build_Speedster($items['stylesheet'],BP);
+               $cssBuild = Mage::getModel('speedster/buildSpeedster')->__construct($items['stylesheet'],BP);
                 foreach ($this->getChunkedItems($items['stylesheet'], $baseJsFast.$cssBuild->getLastModified()) as $item) {
                     $html .= sprintf($stylesheet, $item, 'media="all"')."\n";
                 }
             }
             if (!empty($items['script'])) {
-                $jsBuild = new Minify_Build_Speedster($items['script'],BP);
+                $jsBuild = Mage::getModel('speedster/buildSpeedster')->__construct($items['script'],BP);
                 foreach ($this->getChunkedItems($items['script'], $baseJsFast.$jsBuild->getLastModified()) as $item) {
                     $html .= sprintf($script, $item, '')."\n";
+                }
+            }
+            if (!empty($items['stylesheet_print'])) {
+               $cssBuild = Mage::getModel('speedster/buildSpeedster')->__construct($items['stylesheet_print'],BP);
+                foreach ($this->getChunkedItems($items['stylesheet_print'], $baseJsFast.$cssBuild->getLastModified()) as $item) {
+                    $html .= sprintf($stylesheet, $item, 'media="print"')."\n";
                 }
             }
             if (!empty($items['other'])) {
